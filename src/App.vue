@@ -2,23 +2,39 @@
   <div id="app">
     <img src="./assets/logo.png">
     <h1>Parent: {{ carName }}</h1>
-    <app-car :carName="carName" :carYear="carYear"></app-car>
+    <app-car
+     :carName="carName"
+     :carYear="carYear"
+     :changeFunc="changeNameToAudi"
+     @nameChanged="carName = $event"
+     @counterUpdated="counter = $event"
+     :counter="counter"
+     ></app-car>
+     <app-counter :counter="counter"></app-counter>
   </div>
 </template>
 
 <script>
-import Car from './Car.vue'
+import Car from './Car.vue';
+import Counter from './Counter.vue';
 
 export default {
     name: 'app',
     data () {
-    return {
-        carName: "Ford from parent",
-        carYear: 2015
+        return {
+            carName: "Ford from parent",
+            carYear: 2015,
+            counter: 0
         }
     },
     components: {
         appCar: Car,
+        appCounter: Counter
+    },
+    methods: {
+        changeNameToAudi(){
+            this.changeName = "Audi"
+        }
     }
 
 }
