@@ -8,9 +8,11 @@
      :changeFunc="changeNameToAudi"
      @nameChanged="carName = $event"
      @counterUpdated="counter = $event"
-     :counter="counter"
      ></app-car>
-     <app-counter :counter="counter"></app-counter>
+     <app-counter>
+         <h2 slot="title">title tle tle</h2>
+         <p slot="text">html ml ml</p>
+     </app-counter>
   </div>
 </template>
 
@@ -24,7 +26,7 @@ export default {
         return {
             carName: "Ford from parent",
             carYear: 2015,
-            counter: 0
+            // counter: 0
         }
     },
     components: {

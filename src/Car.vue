@@ -9,7 +9,7 @@
 </template>
 
 <script>
-
+    import {eventEmitter} from './main';
     export default {
         // props: ['carName', 'carYear'],
         props: {
@@ -18,9 +18,8 @@
                 required: true
             },
             carYear: Number,
-            counter: Number,
+            // counter: Number,
             changeFunc: Function
-
         },
         methods: {
             changeName(){
@@ -28,18 +27,19 @@
                 this.$emit('nameChanged', this.carName)
             },
             updateCounter(){
-                this.$emit('counterUpdated', this.counter + 1)
+                eventEmitter.$emit('counterUpdated');
+                // this.$emit('counterUpdated', this.counter + 1)
             }
         }
     }
 
 </script>
 
-<style>
-.car {
-    border: 1px solid black;
-}
-.car h3{
-    margin-bottom: 5px;
-}
+<style scoped>
+    .car {
+        border: 1px solid black;
+    }
+    .car h3{
+        margin-bottom: 5px;
+    }
 </style>
