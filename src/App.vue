@@ -1,8 +1,14 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
-    <h2 v-colored:background="'red'">{{ title }}</h2>
-    <h2 v-colored:color.font="'yellow'">{{ title }}</h2>
+    <h2>{{ title }}</h2>
+    <h2>{{ title | lowercase }}</h2>
+    <h2>{{ title | uppercase }}</h2>
+
+    <input type="text" v-model="searchName">
+    <ul>
+        <li v-for="name of filteredNames">{{ name }}</li>
+    </ul>
 
   </div>
 </template>
@@ -12,9 +18,23 @@
 export default {
     data () {
         return {
-            title: "Hello I am Vue!"
+            title: "Hello I am Vue!",
+            names: ['Vlad', 'Elena', 'Igor', 'Nastya', 'Katya'],
+            searchName: ''
         }
     },
+    computed:{
+        filteredNames(){
+            return this.names.filter(name => {
+                return name.toLowerCase().indexOf(this.searchName.toLowerCase()) !== -1
+            })
+        }
+    },
+    filters: {
+        lowercase(value){
+            return value.toLowerCase();
+        }
+    }
 }
 </script>
 
@@ -38,7 +58,7 @@ ul {
 }
 
 li {
-  display: inline-block;
+  display: block;
   margin: 0 10px;
 }
 
