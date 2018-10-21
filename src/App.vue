@@ -1,39 +1,54 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
-    <h2>{{ title }}</h2>
-    <h2>{{ title | lowercase }}</h2>
-    <h2>{{ title | uppercase }}</h2>
-
-    <input type="text" v-model="searchName">
-    <ul>
-        <li v-for="name of filteredNames">{{ name }}</li>
-    </ul>
-
+    <h2>Формы</h2>
+    <input type="text" v-model="name"><br><br>
+    <textarea v-model="textarea"></textarea><br><br>
+    <label>
+        <span>instagram</span>
+        <input type="checkbox" value="instagram" v-model="social">
+    </label>
+    <label>
+        <span>vk</span>
+        <input type="checkbox" value="vk" v-model="social">
+    </label>
+    <label>
+        <span>facebook</span>
+        <input type="checkbox" value="facebook" v-model="social">
+    </label><br><br>
+    <select v-model="defaultSocial">
+        <option v-for="s in socialList">{{ s }}</option>
+    </select>
+    <hr>
+    <p>{{ name }}</p>
+    <p>{{ textarea }}</p>
+    <div class="">
+        {{ social }}
+    </div>
+    <app-onoff v-model="switched"></app-onoff>
+    <div class="">
+        <h3 v-if="switched">Component is enabled</h3>
+        <h3 v-else="switched">Component is disabled</h3>
+    </div>
   </div>
 </template>
 
 <script>
-
+import Onoff from './Onoff.vue'
 export default {
+
     data () {
         return {
-            title: "Hello I am Vue!",
-            names: ['Vlad', 'Elena', 'Igor', 'Nastya', 'Katya'],
-            searchName: ''
+            name: '',
+            textarea: '',
+            social: [],
+            defaultSocial: '',
+            socialList: ['vk', 'facebook', 'instagram'],
+            switched: false,
         }
     },
-    computed:{
-        filteredNames(){
-            return this.names.filter(name => {
-                return name.toLowerCase().indexOf(this.searchName.toLowerCase()) !== -1
-            })
-        }
-    },
-    filters: {
-        lowercase(value){
-            return value.toLowerCase();
-        }
+    components: {
+        'app-onoff' : Onoff
     }
 }
 </script>
