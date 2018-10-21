@@ -1,7 +1,10 @@
 import Vue from 'vue'
+import Vuelidate from 'vuelidate'
+
+
 import App from './App.vue'
 
-Vue.filter('uppercase', value => value.toUpperCase())
+Vue.use(Vuelidate);
 
 new Vue({
   el: '#app',

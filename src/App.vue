@@ -1,83 +1,106 @@
 <template>
-  <div id="app">
+  <div id="app" class="container">
     <img src="./assets/logo.png">
-    <h2>Формы</h2>
-    <input type="text" v-model="name"><br><br>
-    <textarea v-model="textarea"></textarea><br><br>
-    <label>
-        <span>instagram</span>
-        <input type="checkbox" value="instagram" v-model="social">
-    </label>
-    <label>
-        <span>vk</span>
-        <input type="checkbox" value="vk" v-model="social">
-    </label>
-    <label>
-        <span>facebook</span>
-        <input type="checkbox" value="facebook" v-model="social">
-    </label><br><br>
-    <select v-model="defaultSocial">
-        <option v-for="s in socialList">{{ s }}</option>
-    </select>
-    <hr>
-    <p>{{ name }}</p>
-    <p>{{ textarea }}</p>
-    <div class="">
-        {{ social }}
+    <div class="container">
+      <form action="" @submit.prevent="onSubmit()">
+        <div class="form-group">
+          <label for="email">email</label>
+          <input
+                  type="email"
+                  id="email"
+                  class="form-control"
+                  :class="{'is-invalid' : $v.email.$error}"
+                  v-model="email"
+                  @blur="$v.email.$touch()"
+          >
+          <div class="invalid-feedback" v-if="!$v.email.required">Email field is required</div>
+          <div class="invalid-feedback" v-if="!$v.email.email">This field should be an email</div>
+        </div>
+        <div class="form-group">
+          <label for="email">password</label>
+          <input
+                  type="password"
+                  id="password"
+                  class="form-control"
+                  :class="{'is-invalid' : $v.password.$error}"
+                  v-model="password"
+                  @blur="$v.password.$touch()"
+          >
+          <div class="invalid-feedback" v-if="!$v.password.minLength">
+            Min lenght of password is {{ $v.password.$params.minLength.min }} Now is it {{ password.length }}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">password</label>
+          <input
+                  type="password"
+                  id="confirm"
+                  class="form-control"
+                  :class="{'is-invalid' : $v.confirmPassword.$error}"
+                  v-model="confirmPassword"
+                  @blur="$v.confirmPassword.$touch()"
+          >
+          <div class="invalid-feedback" v-if="!$v.confirmPassword.sameAs">
+            Password should match
+          </div>
+        </div>
+        <button
+                class="btn btn-success"
+                :disabled="$v.$invalid"
+        >submit</button>
+      </form>
     </div>
-    <app-onoff v-model="switched"></app-onoff>
-    <div class="">
-        <h3 v-if="switched">Component is enabled</h3>
-        <h3 v-else="switched">Component is disabled</h3>
-    </div>
+
   </div>
 </template>
 
 <script>
-import Onoff from './Onoff.vue'
+    import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
 export default {
+  data(){
+      return {
+          email: '',
+          password: '',
+          confirmPassword: ''
 
-    data () {
-        return {
-            name: '',
-            textarea: '',
-            social: [],
-            defaultSocial: '',
-            socialList: ['vk', 'facebook', 'instagram'],
-            switched: false,
-        }
-    },
-    components: {
-        'app-onoff' : Onoff
-    }
+      }
+  },
+  methods: {
+      onSubmit() {
+          console.log(this.email);
+          console.log(this.password);
+      }
+  },
+  validations: {
+      email: {
+          required,
+          email,
+          uniqueEmail(newEmail) {
+              if(newEmail === '') return true;
+              return new Promise(function (resolve) {
+                  setTimeout(function () {
+                      const value = newEmail !== 'vdh1ldebrand@i.ua';
+                      resolve(value);
+                  }, 3000)
+
+              })
+
+          }
+      },
+      password: {
+        minLength: minLength(6)
+      },
+      confirmPassword: {
+          sameAs: sameAs('password')
+      }
+  }
 }
 </script>
 
 <style scoped>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-}
-
-h1, h2 {
-  font-weight: normal;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: block;
-  margin: 0 10px;
-}
-
-a {
-  color: #42b983;
 }
 </style>
