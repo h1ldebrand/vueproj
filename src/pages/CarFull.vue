@@ -15,6 +15,18 @@
             year (){
                 return this.$route.query.year
             }
+        },
+        beforeRouteEnter(to, fromR, next){
+            console.log("beforeRouteEnter")
+            next();
+        },
+        beforeRouteLeave(to, fromR, next){
+            console.log('beforeRouterLeave')
+            if(window.confirm('Are you sure you want to leave?')){
+                next();
+            } else {
+                next(false);
+            }
         }
     }
 </script>
